@@ -9,7 +9,8 @@ const hostname = 'localhost';
 const routes = [
     [/html$/i, path.join(__dirname, '../frontend/index.html'), 'text/html' ],
 	[/style\.css$/i, path.join(__dirname, '../frontend/style.css'), 'text/css' ],
-    [/js$/i, undefined, 'text/javascript']
+    [/js$/i, undefined, 'text/javascript'],
+    [/js\.map$/i, undefined, 'text/plain'],
 ];
 
 http.createServer((request, response) => {

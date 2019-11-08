@@ -1,79 +1,19 @@
-setTimeout(() => {window.location.reload()}, 8000);
-
-const canvas = document.querySelector('.canvas');
-const ctx = canvas.getContext('2d');
-const scale = 10;
-const rows = canvas.height / scale;
-const columns = canvas.width / scale;
-
-let snake;
+import * as fruit from './fruit';
+import * as snake from './snake';
+import { canvas, ctx, SCALE, ROWS, COLUMNS } from './env';
 
 (function setup() {
-    snake = new Snake();
-    snake.draw();
+    fruit.location_pick_random(fruit.object);
 
     window.setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        snake.update();
-        snake.draw();
+        snake.update(snake.object);
+        fruit.draw(fruit.object);
+        snake.draw(snake.object);
     }, 250);
 }());
 
 window.addEventListener('keydown', ((evt) => {
     const direction = evt.key.replace('Arrow', '');
-    snake.changeDirection(direction);
+    snake.change_direction(snake.object, direction);
 }))
-
-
-
-// ------- SNAKE
-//
-function Snake() {
-    this.x = 0;
-    this.y = 0;
-    this.xSpeed = scale * 1;
-    this.ySpeed = scale * 0;
-
-    this.draw = function() {
-        ctx.fillStyle = "#FFFFFF"
-        ctx.fillRect(this.x, this.y, scale, scale);
-    }
-
-    this.update = function() {
-        this.x += this.xSpeed;
-        this.y += this.ySpeed;
-        if (this.x > canvas.width){
-            this.x = 0;
-        }
-        if (this.x < 0){
-            this.x = canvas.width;
-        }
-        if (this.y > canvas.height){
-            this.y = 0;
-        }
-        if (this.y < 0){
-            this.y = canvas.height;
-        }
-    }
-
-    this.changeDirection = function(direction) {
-        switch(direction) {
-            case 'Up':
-                this.xSpeed = 0;
-                this.ySpeed = -scale * 1
-                break;
-            case 'Down':
-                this.xSpeed = 0;
-                this.ySpeed = scale * 1
-                break;
-            case 'Left':
-                this.xSpeed = -scale * 1;
-                this.ySpeed = 0
-                break;
-            case 'Right':
-                this.xSpeed = scale * 1;
-                this.ySpeed = 0;
-                break;
-        }
-    }
-}
